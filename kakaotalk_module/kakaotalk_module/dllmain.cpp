@@ -2,6 +2,7 @@
 
 #include "Global.h"
 #include "IPCServer.h"
+#include "pipe_sender.h"
 
 #include "msg_hook.h"
 
@@ -15,6 +16,11 @@ namespace msg_hook {
     DWORD call_proc_addr;
     DWORD hook_orig_addr;
     BYTE orig_bytes[5];
+}
+
+namespace pipe_sender {
+    queue<message_data> send_queue;
+    HANDLE process_thread = NULL;
 }
 
 BOOL IsElevated() {
@@ -43,9 +49,9 @@ int main_t(HMODULE hModule) {
 #ifdef DEBUG_MODE
         log_out = fopen("C:\\_kakaotalk_module.log", "w");
         setbuf(log_out, NULL);
-
-        write_log("Module Loaded!\n");
 #endif
+
+    write_log("Module Loaded!\n");
 
     if (!msg_hook::init()) {
         MessageBoxA(NULL, "초기화 도중 오류가 발생하였습니다.", "Kakaotalk Module", MB_OK | MB_ICONERROR);
@@ -59,20 +65,21 @@ int main_t(HMODULE hModule) {
         FreeLibraryAndExitThread(hModule, 0);
         return -1;
     }
-#ifdef DEBUG_MODE
-    write_log("pipe handle = %p\n", h_pipe);
-#endif
+    write_log("[Pipe Handle] %p\n", h_pipe);
+
+    pipe_sender::init();
 
     MessageBoxA(NULL, "Press OK to Unload Module.", "Kakaotalk Module", MB_OK | MB_ICONINFORMATION);
 
-#ifdef DEBUG_MODE
     write_log("Module Unloaded!\n");
+#ifdef DEBUG_MODE
     fclose(log_out);
 #endif
 
     msg_hook::destroy();
-
+    pipe_sender::destroy();
     CloseHandle(h_pipe);
+
     FreeLibraryAndExitThread(hModule, 0);
     return 0;
 }

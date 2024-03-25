@@ -11,5 +11,6 @@ HANDLE OpenMapHandle(LPCSTR FileName);
 HANDLE CreateMapHandle(const char* FileName);
 
 bool ShareMemoryRead(HANDLE hMapFile, void* buf, size_t len);
+bool IsShareMemoryEmpty(HANDLE hMapFile);
 bool ShareMemoryWrite(HANDLE hMapFile, void* buf, size_t len);
 bool ShareMemoryClear(HANDLE hMapFile);

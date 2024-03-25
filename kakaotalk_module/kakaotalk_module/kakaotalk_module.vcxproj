@@ -146,12 +146,14 @@
     <ClCompile Include="IPCServer.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="msg_hook.cpp" />
+    <ClCompile Include="pipe_sender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h" />
     <ClInclude Include="IPCServer.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="msg_hook.h" />
+    <ClInclude Include="pipe_sender.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

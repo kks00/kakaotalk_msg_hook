@@ -6,6 +6,7 @@
 #include "Global.h"
 #include "Memory.h"
 #include "IPCServer.h"
+#include "pipe_sender.h"
 
 namespace msg_hook {
 	extern DWORD insert_chatlog_addr;
